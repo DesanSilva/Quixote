@@ -1,0 +1,23 @@
+# Ignore version control
+.git
+.gitignore
+
+# Ignore environment files (will be set via docker-compose)
+.env
+
+# Ignore documentation and scripts
+README.md
+*.sh
+
+# Ignore IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Ignore logs
+*.log
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

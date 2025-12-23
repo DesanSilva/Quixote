@@ -1,0 +1,53 @@
+# Prevent directory listing
+Options -Indexes
+
+# Enable URL rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Allow direct access to CSS, JS, and image files
+    RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg)$ [NC]
+    RewriteRule ^ - [L]
+    
+    # Block direct access to protected directories
+    RewriteCond %{REQUEST_URI} ^.*(config|includes|database|pages)/.*$ [NC]
+    RewriteRule ^ - [F,L]
+    
+    # Block direct access to template PHP files
+    RewriteCond %{REQUEST_URI} ^.*/templates/(html|partials)/.*\.php$ [NC]
+    RewriteRule ^ - [F,L]
+    
+    # Redirect all other requests to index.php (except existing files)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Block access to sensitive files
+<FilesMatch "\.(sql|md|sh|env|gitignore|log)$">
+    Require all denied
+</FilesMatch>
+
+# Protect .env file specifically
+<Files ".env">
+    Require all denied
+</Files>
+
+# Block access to sensitive files
+<FilesMatch "\.(sql|md|sh|env|gitignore|log)$">
+    Require all denied
+</FilesMatch>
+
+# Protect .env file specifically
+<Files ".env">
+    Require all denied
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+

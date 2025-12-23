@@ -1,0 +1,34 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Backup files
+*.sql.backup
+*.backup
+backup_*.sql
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+error.log
+access.log
+
+# shell scripts
+*.sh
+
+# Temporary files
+tmp/
+temp/
+*.tmp
