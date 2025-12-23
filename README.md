@@ -1,6 +1,6 @@
 # Quixote
 
-![Docker Build](https://github.com/DesanSilva/quixote/actions/workflows/docker-build.yml/badge.svg)
+[![Docker Build](https://github.com/DesanSilva/quixote/actions/workflows/docker-build.yml/badge.svg)](https://github.com/DesanSilva/quixote/actions/workflows/docker-build.yml)
 
 A web-based competitive Scrabble score tracking and rating application for accurate player skill assessment.
 
