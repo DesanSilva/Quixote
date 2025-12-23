@@ -1,0 +1,68 @@
+name: Docker Build Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Create .env file for testing
+        run: |
+          touch .env
+          echo "DB_HOST=db" >> .env
+          echo "DB_NAME=scrabble_db" >> .env
+          echo "DB_USER=scrabble_user" >> .env
+          echo "DB_PASS=test_password_12345678" >> .env
+          echo "DB_ROOT_PASS=test_root_pass_12345678" >> .env
+          chmod 640 .env
+      
+      - name: Verify .env file
+        run: cat .env
+      
+      - name: Build Docker images
+        run: docker-compose build
+      
+      - name: Start services
+        run: docker-compose up -d
+      
+      - name: Wait for database initialization
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          sleep 30
+          docker-compose ps
+      
+      - name: Check database connection
+        run: |
+          docker exec quixote_db mysql -u scrabble_user -ptest_password_12345678 scrabble_db -e "SHOW TABLES;"
+      
+      - name: Check web service health
+        run: |
+          echo "Testing web service..."
+          curl -f http://localhost:8080 || exit 1
+          echo "Web service is responding"
+      
+      - name: Check application pages
+        run: |
+          curl -f http://localhost:8080/leaderboard || exit 1
+          curl -f http://localhost:8080/add-player || exit 1
+          echo "All pages accessible"
+      
+      - name: View logs on failure
+        if: failure()
+        run: |
+          echo "=== Web Service Logs ==="
+          docker logs quixote_web
+          echo "=== Database Logs ==="
+          docker logs quixote_db
+      
+      - name: Shutdown services
+        if: always()
+        run: docker-compose down -v
