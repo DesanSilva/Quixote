@@ -120,12 +120,12 @@ require_once __DIR__ . '/../partials/nav.php';
             
             <?php
             if ($data['scoreStats']) {
-                $avgScore = round($data['scoreStats']['avgScore'], 1);
-                $highScore = $data['scoreStats']['highScore'];
-                $lowScore = $data['scoreStats']['lowScore'];
+                $avgScore = round($data['scoreStats']['avgScore'] ?? 0, 1);
+                $highScore = $data['scoreStats']['highScore'] ?? 0;
+                $lowScore = $data['scoreStats']['lowScore'] ?? 0;
                 
-                $totalBingos = $data['bingoStats']['totalBingos'];
-                $totalBingoPoints = $data['bingoStats']['totalBingoPoints'];
+                $totalBingos = $data['bingoStats']['totalBingos'] ?? 0;
+                $totalBingoPoints = $data['bingoStats']['totalBingoPoints'] ?? 0;
                 $avgBingosPerGame = $gamesPlayed > 0 ? round($totalBingos / $gamesPlayed, 2) : 0;
                 
                 echo '<div class="stats-grid">';
