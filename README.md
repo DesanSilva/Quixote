@@ -1,6 +1,6 @@
-# Quixote - Scrabble Rating System
+# Quixote
 
-A web-based competitive Scrabble score tracking application implementing the Glicko-2 rating system for accurate player skill assessment.
+A web-based competitive Scrabble score tracking and rating application for accurate player skill assessment.
 
 ## Overview
 
